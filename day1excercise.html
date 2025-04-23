@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Day 1 Excercise</title>
+  </head>
+  <body>
+    <h1>Basic JavaScript</h1>
+  </body>
+  <script>
+    function hitungBilanganGanjil(n) {
+      let count = 0;
+      for (let i = 1; i <= n; i++) {
+        if (i % 2 !== 0) {
+          count++;
+        }
+      }
+      return count;
+    }
+    console.log(hitungBilanganGanjil(10));
+    console.log(hitungBilanganGanjil(20));
+    // Ekspektasi hasil:
+    // hitungBilanganGanjil(10) => 5
+    // hitungBilanganGanjil(20) => 10
+
+    function cekTahunKabisat(tahun) {
+      return Boolean(
+        tahun % 4 === 0 && (tahun % 100 !== 0 || tahun % 400 === 0)
+      );
+    }
+    console.log(cekTahunKabisat(2020));
+    console.log(cekTahunKabisat(2021));
+
+    // Ekspektasi hasil:
+    // cekTahunKabisat(2020) => true
+    // cekTahunKabisat(2021) => false
+
+    function hitungFaktorial(n) {
+      if (n === 0) {
+        return 1;
+      }
+      return n * hitungFaktorial(n - 1);
+    }
+    console.log(hitungFaktorial(5));
+    // Ekspektasi hasil:
+    // hitungFaktorial(5) => 120
+    // hitungFaktorial(0) => 1
+
+    function cariBilanganPrima(n) {
+      const bilanganPrima = [];
+      for (let i = 2; i <= n; i++) {
+        let isPrime = true;
+        for (let j = 2; j < i; j++) {
+          if (i % j === 0) {
+            isPrime = false;
+            break;
+          }
+        }
+        if (isPrime) {
+          bilanganPrima.push(i);
+        }
+      }
+      return bilanganPrima;
+    }
+
+    console.log(cariBilanganPrima(20));
+
+    // Ekspektasi hasil:
+    // cariBilanganPrima(20) => [2, 3, 5, 7, 11, 13, 17, 19]
+
+    function hitungJumlahDigit(angka) {
+      const strAngka = String(angka);
+      let jumlah = 0;
+      for (const element of strAngka) {
+        jumlah += Number(element);
+      }
+      return jumlah;
+    }
+    console.log(hitungJumlahDigit(12345));
+    console.log(hitungJumlahDigit(9876));
+
+    // Ekspektasi hasil:
+    // hitungJumlahDigit(12345) => 15
+    // hitungJumlahDigit(9876) => 30
+
+    function cekPalindrom(kata) {
+      const reversedKata = kata.split("").reverse().join("");
+      return kata === reversedKata;
+    }
+
+    console.log(cekPalindrom("katak"));
+    console.log(cekPalindrom("malam"));
+    console.log(cekPalindrom("hello"));
+
+    // Ekspektasi hasil:
+    // cekPalindrom("katak") => true
+    // cekPalindrom("malam") => true
+    // cekPalindrom("hello") => false
+
+    function hitungPangkat(angka, pangkat) {
+      return Math.pow(angka, pangkat);
+    }
+
+    console.log(hitungPangkat(2, 3));
+    console.log(hitungPangkat(5, 2));
+    // Ekspektasi hasil:
+    // hitungPangkat(2, 3) => 8
+    // hitungPangkat(5, 2) => 25
+
+    function deretFibonacci(n) {
+      const hasil = [0, 1];
+      for (let i = 2; i < n; i++) {
+        hasil[i] = hasil[i - 2] + hasil[i - 1];
+      }
+      return hasil.slice(0, n);
+    }
+
+    console.log(deretFibonacci(8));
+    // Ekspektasi hasil:
+    // deretFibonacci(8) => [0, 1, 1, 2, 3, 5, 8, 13]
+
+    function hitungJumlahKata(kalimat) {
+      return kalimat.split(" ").length;
+    }
+
+    console.log(hitungJumlahKata("Saya suka belajar JavaScript"));
+
+    // Ekspektasi hasil:
+    // hitungJumlahKata("Saya suka belajar JavaScript") => 4
+
+    function cariBilanganTerbesar(arr) {
+      let max = arr[0];
+      for (const element of arr) {
+        if (element > max) {
+          max = element;
+        }
+      }
+      return max;
+    }
+
+    console.log(cariBilanganTerbesar([3, 7, 2, 9, 1]));
+
+    // Ekspektasi hasil:
+    // cariBilanganTerbesar([3, 7, 2, 9, 1]) => 9
+
+    function hitungRataRata(arr) {
+      if (arr.length === 0) return 0;
+      const total = arr.reduce((acc, val) => acc + val, 0);
+      return total / arr.length;
+    }
+
+    console.log(hitungRataRata([1, 2, 3, 4, 5]));
+
+    // Ekspektasi hasil:
+    // hitungRataRata([1, 2, 3, 4, 5]) => 3
+
+    function hitungJumlahVokal(kata) {
+      let jumlah = 0;
+      for (const char of kata.toLowerCase()) {
+        if (
+          char === "a" ||
+          char === "i" ||
+          char === "u" ||
+          char === "e" ||
+          char === "o"
+        ) {
+          jumlah++;
+        }
+      }
+      return jumlah;
+    }
+
+    console.log(hitungJumlahVokal("javascript"));
+
+    // Ekspektasi hasil:
+    // hitungJumlahVokal("javascript") => 3
+
+    function cariFaktorBilangan(angka) {
+      const faktor = [];
+      for (let i = 1; i <= angka; i++) {
+        if (angka % i === 0) {
+          faktor.push(i);
+        }
+      }
+      return faktor;
+    }
+
+    console.log(cariFaktorBilangan(12));
+
+    // Ekspektasi hasil:
+    // cariFaktorBilangan(12) => [1, 2, 3, 4, 6, 12]
+
+    function konversiSuhu(suhu, jenis) {
+      if (jenis === "C") {
+        return (suhu * 9) / 5 + 32 + " Fahrenheit";
+      } else if (jenis === "F") {
+        return ((suhu - 32) * 5) / 9 + " Celcius";
+      }
+    }
+
+    console.log(konversiSuhu(30, "C"));
+    console.log(konversiSuhu(86, "F"));
+
+    // Ekspektasi hasil:
+    // konversiSuhu(30, "C") => 86 (Fahrenheit)
+    // konversiSuhu(86, "F") => 30 (Celsius)
+
+    function hitungKarakterUnik(str) {
+      const charSet = new Set();
+      for (const char of str) {
+        charSet.add(char);
+      }
+      return charSet.size;
+    }
+
+    console.log(hitungKarakterUnik("hello world"));
+
+    // Ekspektasi hasil:
+    // hitungKarakterUnik("hello world") => 8
+
+    function hitungKemunculanKata(kalimat, kata) {
+      const kataArr = kalimat.toLowerCase().split(" ");
+      let count = 0;
+      for (const element of kataArr) {
+        if (element === kata.toLowerCase()) {
+          count++;
+        }
+      }
+      return count;
+    }
+
+    console.log(
+      hitungKemunculanKata(
+        "Saya suka makan nasi, saya juga suka minum air",
+        "suka"
+      )
+    );
+
+    // Ekspektasi hasil:
+    // hitungKemunculanKata("Saya suka makan nasi, saya juga suka minum air", "suka") => 2
+
+    function cariBilanganGanjilTerbesar(arr) {
+      let max = -Infinity;
+      for (const element of arr) {
+        if (element % 2 !== 0 && element > max) {
+          max = element;
+        }
+      }
+      return max;
+    }
+
+    console.log(cariBilanganGanjilTerbesar([1, 2, 3, 4, 5, 6, 7, 8, 9]));
+
+    // Ekspektasi hasil:
+    // cariBilanganGanjilTerbesar([1, 2, 3, 4, 5, 6, 7, 8, 9]) => 9
+
+    function hitungJumlahDigitGenap(angka) {
+      const strAngka = String(angka);
+      let jumlah = 0;
+      for (const element of strAngka) {
+        if (Number(element) % 2 === 0) {
+          jumlah++;
+        }
+      }
+      return jumlah;
+    }
+
+    console.log(hitungJumlahDigitGenap(1234567890));
+
+    // Ekspektasi hasil:
+    // hitungJumlahDigitGenap(1234567890) => 5
+
+    function cekAnagram(kata1, kata2) {
+      const str1 = kata1.toLowerCase().split("").sort().join("");
+      const str2 = kata2.toLowerCase().split("").sort().join("");
+      return str1 === str2;
+    }
+
+    console.log(cekAnagram("listen", "silent"));
+    console.log(cekAnagram("hello", "world"));
+
+    // Ekspektasi hasil:
+    // cekAnagram("listen", "silent") => true
+    // cekAnagram("hello", "world") => false
+
+    function hitungHurufKapital(kalimat) {
+      let jumlah = 0;
+      for (const huruf of kalimat) {
+        if (huruf >= "A" && huruf <= "Z") {
+          jumlah++;
+        }
+      }
+      return jumlah;
+    }
+
+    console.log(hitungHurufKapital("Saya Belajar JavaScript Di DICODING"));
+
+    // Ekspektasi hasil:
+    // hitungHurufKapital("Saya Belajar JavaScript Di DICODING") => 13
+
+    function cariBilanganHilang(arr) {
+      const bilanganTerbesar = Math.max(...arr);
+      const totalBilangan = (bilanganTerbesar * (bilanganTerbesar + 1)) / 2;
+      const totalArr = arr.reduce((acc, val) => acc + val, 0);
+      return totalBilangan - totalArr;
+    }
+
+    console.log(cariBilanganHilang([1, 2, 3, 5, 6, 7]));
+
+    // Ekspektasi hasil:
+    // cariBilanganHilang([1, 2, 3, 5, 6, 7]) => 4
+
+    function hitungJumlahHari(tanggal1, tanggal2) {
+      const date1 = new Date(tanggal1);
+      const date2 = new Date(tanggal2);
+      const timeDifference = date2 - date1;
+      const daysDifference = timeDifference / (1000 * 60 * 60 * 24);
+      return Math.floor(daysDifference);
+    }
+
+    console.log(hitungJumlahHari("2023-01-01", "2023-12-31"));
+
+    // Ekspektasi hasil:
+    // hitungJumlahHari("2023-01-01", "2023-12-31") => 364
+
+    function hitungKataUnik(kalimat) {
+      const kataArr = kalimat.toLowerCase().split(" ");
+      const kataSet = new Set(kataArr);
+      return kataSet.size;
+    }
+
+    console.log(hitungKataUnik("Saya suka makan nasi suka minum air"));
+
+    // Ekspektasi hasil:
+    // hitungKataUnik("Saya suka makan nasi suka minum air") => 6
+
+    function cariBilanganMunculSekali(arr) {
+      const bilanganSet = new Set(arr);
+      const bilanganMunculSekali = [];
+      for (const bilangan of bilanganSet) {
+        if (arr.filter((val) => val === bilangan).length === 1) {
+          bilanganMunculSekali.push(bilangan);
+        }
+      }
+      return bilanganMunculSekali;
+    }
+
+    console.log(cariBilanganMunculSekali([1, 2, 2, 3, 3, 4, 5, 5]));
+
+    // Ekspektasi hasil:
+    // cariBilanganMunculSekali([1, 2, 2, 3, 3, 4, 5, 5]) => [1, 4]
+
+    function hitungKemunculanKarakter(str) {
+      const karakterObj = {};
+      for (const karakter of str) {
+        if (karakterObj.hasOwnProperty(karakter)) {
+          karakterObj[karakter]++;
+        } else {
+          karakterObj[karakter] = 1;
+        }
+      }
+      return karakterObj;
+    }
+
+    console.log(hitungKemunculanKarakter("hello world"));
+
+    // Ekspektasi hasil:
+    // hitungKemunculanKarakter("hello world") => {h: 1, e: 1, l: 3, o: 2, ' ': 1, w: 1, r: 1, d: 1}
+
+    function hitungKombinasi(n, r) {
+      let hasil = 1;
+      for (let i = 1; i <= r; i++) {
+        hasil = (hasil * (n - i + 1)) / i;
+      }
+      return hasil;
+    }
+
+    console.log(hitungKombinasi(5, 2));
+    // Ekspektasi hasil:
+    // hitungKombinasi(5, 2) => 10
+
+    console.log(hitungKombinasi(10, 3));
+    // Ekspektasi hasil:
+    // hitungKombinasi(10, 3) => 120
+  </script>
+</html>
