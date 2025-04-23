@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Kalkulator</title>
+    <style>
+        .container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+            grid-gap: 10px;
+            justify-content: center;
+            align-content: center;
+            width: 300px;
+            height: 400px;
+        }
+        .display {
+            grid-column: 1 / -1;
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            text-align: right;
+        }
+        .button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+        }
+        .button:hover {
+            background-color: #45a049;
+        }
+        .button:active {
+            background-color: #3e8e41;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="display" id="display"></div>
+        <button class="button" onclick="clickNumber('0')">AC</button>
+        <button class="button" onclick="clickNumber('8')">""</button>
+        <button class="button" onclick="clickNumber('9')">%</button>
+        <button class="button" onclick="clickNumber('/')">/</button>
+        <button class="button" onclick="clickNumber('4')">7</button>
+        <button class="button" onclick="clickNumber('5')">8</button>
+        <button class="button" onclick="clickNumber('6')">9</button>
+        <button class="button" onclick="clickNumber('*')">*</button>
+        <button class="button" onclick="clickNumber('1')">4</button>
+        <button class="button" onclick="clickNumber('2')">5</button>
+        <button class="button" onclick="clickNumber('3')">6</button>
+        <button class="button" onclick="clickNumber('-')">-</button>
+        <button class="button" onclick="clickNumber('0')">1</button>
+        <button class="button" onclick="clickNumber('.')">2</button>
+        <button class="button" onclick="clickNumber('+')">3</button>
+        <button class="button" onclick="clickNumber('+')">+</button>
+        <button class="button" onclick="clickNumber('+')">3</button>
+        <button class="button" onclick="clickNumber('+')">3</button>
+        <button class="button" onclick="clickEqual()">=</button>
+    </div>
+    <script>
+        let display = document.getElementById('display');
+        function clickNumber(number) {
+            display.value += number;
+        }
+        function clickEqual() {
+            display.value = eval(display.value);
+        }
+    </script>
+</body>
+</html>
+

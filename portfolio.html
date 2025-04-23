@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Portfolio Saya</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: "Segoe UI", sans-serif;
+        background-color: #fdfdfd;
+        color: #333;
+      }
+      header,
+      footer {
+        text-align: center;
+        padding: 40px 20px;
+        background: #160840; /* Dark blue */
+        color: white;
+      }
+      header h1 {
+        margin: 0;
+        font-size: 36px;
+      }
+      header p {
+        margin-top: 10px;
+        font-size: 18px;
+      }
+
+      .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: auto;
+        padding: 40px 20px;
+      }
+
+      .profile-photo {
+        display: block;
+        margin: 0 auto 30px;
+        border-radius: 50%;
+        width: 150px;
+        height: 150px;
+        object-fit: cover;
+      }
+
+      #about,
+      #skills {
+        text-align: center;
+        background-color: #f5f5f5;
+        padding: 20px;
+        align-items: center;
+      }
+
+      h2 {
+        text-align: center;
+        margin-bottom: 16px;
+      }
+
+      .projects,
+      .skills {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+      }
+
+      .project-item {
+        background: #f5f5f5;
+        padding: 16px;
+        border-radius: 12px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        margin-bottom: 16px;
+        flex: 0 1 350px;
+        text-align: left;
+      }
+
+      .skill-item {
+        background: #160840;
+        padding: 12px;
+        border-radius: 12px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        color: #ffffff;
+      }
+
+      a {
+        color: #ffffff;
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Muhammad Althoofandy Suprayogi</h1>
+      <p>Android Developer | UI Designer | OTW Fullstack Developer</p>
+    </header>
+
+    <div class="">
+      <section id="about">
+        <img
+          src="img/photo-portfolio.jpeg"
+          alt="Foto Profil"
+          class="profile-photo"
+        />
+        <h2>Tentang Saya</h2>
+        <p>
+          Saya adalah seorang pengembang aplikasi Android yang berfokus pada
+          pembuatan antarmuka pengguna yang intuitif dan responsif. Saya senang
+          membangun solusi digital yang memberikan pengalaman terbaik bagi
+          pengguna.
+        </p>
+      </section>
+
+      <section id="projects">
+        <h2>Proyek Terbaru</h2>
+        <div class="projects">
+          <div class="project-item">
+            <h3>Proyek 1</h3>
+            <p>Deskripsi singkat proyek pertama yang pernah saya kerjakan.</p>
+          </div>
+          <div class="project-item">
+            <h3>Proyek 2</h3>
+            <p>Deskripsi singkat proyek kedua dengan hasil yang memuaskan.</p>
+          </div>
+          <div class="project-item">
+            <h3>Proyek 3</h3>
+            <p>
+              Proyek ketiga ini berfokus pada pengembangan front-end modern.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section id="skills">
+        <h2>Keahlian</h2>
+        <div class="skills">
+          <div class="skill-item">HTML & CSS</div>
+          <div class="skill-item">JavaScript</div>
+          <div class="skill-item">React JS</div>
+          <div class="skill-item">Figma</div>
+        </div>
+      </section>
+    </div>
+
+    <footer>
+      <h1>Kontak</h1>
+      <p>Email: <a href="mailto:email@example.com">email@example.com</a></p>
+      <p>Github: Althoofandy</p>
+    </footer>
+  </body>
+</html>
