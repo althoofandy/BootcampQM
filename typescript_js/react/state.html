@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script
+      src="https://unpkg.com/react@18/umd/react.development.js"
+      crossorigin
+    ></script>
+    <script
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+      crossorigin
+    ></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+      const { useState, useEffect } = React;
+      function PokemonDitto() {
+        const [ditto, setDitto] = useState(null);
+        useEffect(() => {
+          fetch("https://pokeapi.co/api/v2/pokemon/ditto/")
+            .then((res) => res.json())
+            .then((data) => setDitto(data));
+        }, []);
+
+        return (
+          <div>
+            <h1>Pokemon Ditto</h1>
+            {ditto ? (
+              <div>
+                <img src={ditto.sprites.front_default} />
+                <ul>
+                  <li>Nama: {ditto.name}</li>
+                  <li>Height: {ditto.height}</li>
+                  <li>Weight: {ditto.weight}</li>
+                </ul>
+              </div>
+            ) : (
+              <p>Loading...</p>
+            )}
+          </div>
+        );
+      }
+
+      function App() {
+        return <PokemonDitto />;
+      }
+
+      ReactDOM.render(<App />, document.getElementById("root"));
+    </script>
+  </body>
+</html>
