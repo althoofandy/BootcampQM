@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchUsers } from "../store/userSlice";
-// import { UserData } from "../types/user";
+import { fetchUsers, setSelectedUser, setEditUser } from "../store/userSlice";
+import { UserData } from "../types/user";
 import { RootState, AppDispatch } from "../store/store";
 
 const TableUser: React.FC = () => {
@@ -13,15 +13,15 @@ const TableUser: React.FC = () => {
     dispatch(fetchUsers());
   }, [dispatch]);
 
-  // const handleView = (user: UserData) => {
-  // dispatch(setSelectedUser(user));
-  // dispatch(setEditUser(null));
-  // };
+  const handleView = (user: UserData) => {
+    dispatch(setSelectedUser(user));
+    dispatch(setEditUser(null));
+  };
 
-  // const handleEdit = (user: UserData) => {
-  // dispatch(setSelectedUser(null));
-  // dispatch(setEditUser(user));
-  // };
+  const handleEdit = (user: UserData) => {
+    dispatch(setSelectedUser(null));
+    dispatch(setEditUser(user));
+  };
 
   return (
     <div className="min-h-screen bg-gray-100 p-8">
@@ -76,10 +76,10 @@ const TableUser: React.FC = () => {
                   </td>
                   <td className="p-3 border">{user.created}</td>
                   <td className="p-3 border flex items-center gap-2">
-                    {/* <button onClick={() => handleView(user)}>👁️</button> */}
-                    {/* <button onClick={() => handleEdit(user)}>✏️</button> */}
+                    <button onClick={() => handleView(user)}>👁️</button>
+                    <button onClick={() => handleEdit(user)}>✏️</button>
                     <button
-                      // onClick={() => dispatch(setEditUser(null))}
+                      onClick={() => dispatch(setEditUser(null))}
                       className="text-red-500"
                     >
                       🗑️
@@ -113,7 +113,7 @@ const TableUser: React.FC = () => {
               <strong>Created:</strong> {selectedUser.created}
             </p>
             <button
-              // onClick={() => dispatch(setSelectedUser(null))}
+              onClick={() => dispatch(setSelectedUser(null))}
               className="mt-4 bg-gray-500 text-white px-4 py-2 rounded"
             >
               Close
@@ -130,7 +130,7 @@ const TableUser: React.FC = () => {
             <form
               onSubmit={(e) => {
                 e.preventDefault();
-                // dispatch(setEditUser(null));
+                dispatch(setEditUser(null));
               }}
               className="space-y-4"
             >
@@ -139,9 +139,9 @@ const TableUser: React.FC = () => {
                 <input
                   type="text"
                   value={editUser.name}
-                  // onChange={(e) =>
-                  // dispatch(setEditUser({ ...editUser, name: e.target.value }))
-                  // }
+                  onChange={(e) =>
+                    dispatch(setEditUser({ ...editUser, name: e.target.value }))
+                  }
                   className="w-full border p-2 rounded"
                   required
                 />
@@ -151,11 +151,11 @@ const TableUser: React.FC = () => {
                 <input
                   type="email"
                   value={editUser.email}
-                  // onChange={(e) =>
-                  // dispatch(
-                  // setEditUser({ ...editUser, email: e.target.value })
-                  // )
-                  // }
+                  onChange={(e) =>
+                    dispatch(
+                      setEditUser({ ...editUser, email: e.target.value })
+                    )
+                  }
                   className="w-full border p-2 rounded"
                   required
                 />
@@ -165,9 +165,9 @@ const TableUser: React.FC = () => {
                 <input
                   type="text"
                   value={editUser.role}
-                  // onChange={(e) =>
-                  // dispatch(setEditUser({ ...editUser, role: e.target.value }))
-                  // }
+                  onChange={(e) =>
+                    dispatch(setEditUser({ ...editUser, role: e.target.value }))
+                  }
                   className="w-full border p-2 rounded"
                   required
                 />
@@ -175,7 +175,7 @@ const TableUser: React.FC = () => {
               <div className="flex justify-end gap-2">
                 <button
                   type="button"
-                  // onClick={() => dispatch(setEditUser(null))}
+                  onClick={() => dispatch(setEditUser(null))}
                   className="bg-gray-500 text-white px-4 py-2 rounded"
                 >
                   Cancel

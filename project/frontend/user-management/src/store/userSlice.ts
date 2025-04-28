@@ -31,6 +31,33 @@ const initialState: UserState = {
 const userSlice = createSlice({
   name: "users",
   initialState,
+  reducers: {
+    setSelectedUser(state, action: PayloadAction<UserData | null>) {
+      state.selectedUser = action.payload;
+      state.isViewModalOpen = !!action.payload; // Buka modal otomatis kalau ada selectedUser
+    },
+    setEditUser(state, action: PayloadAction<UserData | null>) {
+      state.editUser = action.payload;
+      state.isEditModalOpen = !!action.payload; // Buka modal otomatis kalau ada editUser
+    },
+    setViewModalOpen(state, action: PayloadAction<boolean>) {
+      state.isViewModalOpen = action.payload;
+    },
+    setEditModalOpen(state, action: PayloadAction<boolean>) {
+      state.isEditModalOpen = action.payload;
+    },
+    updateUser(state, action: PayloadAction<UserData>) {
+      state.users = state.users.map((user) =>
+        user.id === action.payload.id ? action.payload : user
+      );
+    },
+    deleteUser(state, action: PayloadAction<number>) {
+      state.users = state.users.filter((user) => user.id !== action.payload);
+    },
+    updateEditUser(state, action: PayloadAction<UserData>) {
+      state.editUser = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchUsers.pending, (state) => {
@@ -44,55 +71,17 @@ const userSlice = createSlice({
       .addCase(fetchUsers.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
-      })
-      .addMatcher(
-        (action) => action.type.endsWith("/setSelectedUser"),
-        (state, action: PayloadAction<UserData | null>) => {
-          state.selectedUser = action.payload;
-        }
-      )
-      .addMatcher(
-        (action) => action.type.endsWith("/setEditUser"),
-        (state, action: PayloadAction<UserData | null>) => {
-          state.editUser = action.payload;
-        }
-      )
-      .addMatcher(
-        (action) => action.type.endsWith("/setViewModalOpen"),
-        (state, action: PayloadAction<boolean>) => {
-          state.isViewModalOpen = action.payload;
-        }
-      )
-      .addMatcher(
-        (action) => action.type.endsWith("/setEditModalOpen"),
-        (state, action: PayloadAction<boolean>) => {
-          state.isEditModalOpen = action.payload;
-        }
-      )
-      .addMatcher(
-        (action) => action.type.endsWith("/updateUser"),
-        (state, action: PayloadAction<UserData>) => {
-          state.users = state.users.map((user) =>
-            user.id === action.payload.id ? action.payload : user
-          );
-        }
-      )
-      .addMatcher(
-        (action) => action.type.endsWith("/deleteUser"),
-        (state, action: PayloadAction<number>) => {
-          state.users = state.users.filter(
-            (user) => user.id !== action.payload
-          );
-        }
-      )
-      .addMatcher(
-        (action) => action.type.endsWith("/updateEditUser"),
-        (state, action: PayloadAction<UserData>) => {
-          state.editUser = action.payload;
-        }
-      );
+      });
   },
-  reducers: {},
 });
 
+export const {
+  setSelectedUser,
+  setEditUser,
+  setViewModalOpen,
+  setEditModalOpen,
+  updateUser,
+  deleteUser,
+  updateEditUser,
+} = userSlice.actions;
 export default userSlice.reducer;

@@ -16,3 +16,7 @@ export interface UserState {
   isViewModalOpen: boolean;
   isEditModalOpen: boolean;
 }
+
+export const selectUser = (user: UserData | null) => {
+  return { type: "SELECT_USER", payload: user };
+};
