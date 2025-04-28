@@ -4,11 +4,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const users_routes_1 = __importDefault(require("./routes/users.routes"));
 const app = (0, express_1.default)();
-const port = 3000;
-app.get("/", (req, res) => {
-    res.send("Hello World!");
+// Middleware
+// app.use(cors({ origin: "http://localhost:5173" }));
+app.use(express_1.default.json());
+// Routes
+app.use("/api/users", users_routes_1.default);
+// Error Handling
+app.use((req, res) => {
+    res.status(404).json({ status: "fail", message: "Route not found" });
 });
-app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`);
+app.listen(3000, () => {
+    console.log("Server berjalan pada port 3000");
 });

@@ -1,11 +1,21 @@
 import express from "express";
-const app = express();
-const port = 3000;
+import cors from "cors";
+import usersRoute from "./routes/users.routes";
 
-app.get("/", (req, res) => {
-  res.send("Hello World!");
+const app = express();
+
+// Middleware
+// app.use(cors({ origin: "http://localhost:5173" }));
+app.use(express.json());
+
+// Routes
+app.use("/api/users", usersRoute);
+
+// Error Handling
+app.use((req, res) => {
+  res.status(404).json({ status: "fail", message: "Route not found" });
 });
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+app.listen(3000, () => {
+  console.log("Server berjalan pada port 3000");
 });
