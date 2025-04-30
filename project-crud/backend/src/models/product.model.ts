@@ -3,7 +3,16 @@ import { ProductModel } from "../types/product.type";
 
 export default (sequelize: Sequelize) => {
   class Product extends Model<ProductModel> {
-    static associate(models: any) {}
+    static associate(models: any) {
+      Product.belongsTo(models.Category, {
+        foreignKey: "categoryId",
+        as: "category",
+      });
+      Product.hasMany(models.Cart, {
+        foreignKey: "id",
+        as: "carts",
+      });
+    }
   }
 
   Product.init(
@@ -22,8 +31,8 @@ export default (sequelize: Sequelize) => {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-      category: {
-        type: DataTypes.STRING,
+      categoryId: {
+        type: DataTypes.UUID,
         allowNull: false,
       },
       description: {

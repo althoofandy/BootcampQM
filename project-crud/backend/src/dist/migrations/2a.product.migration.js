@@ -16,9 +16,15 @@ export default {
                 type: DataTypes.INTEGER,
                 allowNull: false,
             },
-            category: {
-                type: DataTypes.STRING,
+            categoryId: {
+                type: DataTypes.UUID,
                 allowNull: false,
+                references: {
+                    model: "categories",
+                    key: "categoryId",
+                },
+                onUpdate: "CASCADE",
+                onDelete: "RESTRICT", // atau CASCADE jika ingin ikut terhapus
             },
             description: {
                 type: DataTypes.STRING,

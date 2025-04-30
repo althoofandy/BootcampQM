@@ -8,6 +8,7 @@ import {
   deleteProduct,
 } from "../feature/product.slice.js";
 import { ProductFormType, ProductType } from "../types/product.type.js";
+import TopNavBar from "../components/TopNavBar";
 
 function App() {
   const dispatch = useDispatch();
@@ -15,12 +16,18 @@ function App() {
     (state: any) => state.products
   );
 
+  // State for modal control
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
   const [currentProduct, setCurrentProduct] = useState<ProductFormType | null>(
     null
   );
+
+  // State for tab navigation
+  const [activeTab, setActiveTab] = useState("products");
+
+  // Form data state
   const [formData, setFormData] = useState<ProductFormType>({
     id: "",
     name: "",
@@ -32,10 +39,12 @@ function App() {
     isCart: false,
   });
 
+  // Fetch products on component mount
   useEffect(() => {
     dispatch(getAllProducts() as any);
   }, [dispatch]);
 
+  // Form input change handler
   const handleInputChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
@@ -49,25 +58,42 @@ function App() {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // Form submission handler
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (currentProduct) {
-      dispatch(updateProduct(formData) as any);
+      await dispatch(updateProduct(formData) as any);
+      dispatch(getAllProducts() as any);
     } else {
       dispatch(createProduct(formData) as any);
     }
     resetForm();
   };
 
-  const handleDelete = () => {
+  // Product deletion handler
+  const handleDelete = async () => {
     if (currentProduct) {
-      console.log(currentProduct?.id);
-      dispatch(deleteProduct(currentProduct.id) as any);
+      await dispatch(deleteProduct(currentProduct.id) as any);
       setIsDeleteModalOpen(false);
       setCurrentProduct(null);
     }
   };
 
+  // Add to cart handler
+  const handleAddToCart = async (product: ProductType) => {
+    const updatedProduct = { ...product, isCart: true };
+    await dispatch(updateProduct(updatedProduct) as any);
+    dispatch(getAllProducts() as any);
+  };
+
+  // Remove from cart handler
+  const handleRemoveFromCart = async (product: ProductType) => {
+    const updatedProduct = { ...product, isCart: false };
+    await dispatch(updateProduct(updatedProduct) as any);
+    dispatch(getAllProducts() as any);
+  };
+
+  // Modal control functions
   const openEditModal = (product: ProductFormType) => {
     setCurrentProduct(product);
     setFormData(product);
@@ -109,7 +135,7 @@ function App() {
     e.stopPropagation();
   };
 
-  // Fungsi untuk memformat harga
+  // Price formatting function
   const formatPrice = (price: number | undefined): string => {
     if (price === undefined || isNaN(price)) {
       return "0.00";
@@ -117,29 +143,22 @@ function App() {
     return price.toFixed(2);
   };
 
+  // Calculate cart items count
+  const cartItemsCount = products
+    ? products.filter((p: ProductType) => p.isCart).length
+    : 0;
+
   return (
     <div className="min-h-screen bg-gray-100">
-      {/* Header */}
-      <header className="bg-white shadow">
-        <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-          <h1 className="text-3xl font-bold text-gray-900">
-            Product Management
-          </h1>
-        </div>
-      </header>
+      {/* Top Navigation Bar */}
+      <TopNavBar
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+        cartItemsCount={cartItemsCount}
+      />
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-        {/* Action Button */}
-        <div className="mb-6 flex justify-end">
-          <button
-            onClick={openAddModal}
-            className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
-            Add New Product
-          </button>
-        </div>
-
         {/* Loading and Error States */}
         {loading && (
           <div className="text-center py-4">
@@ -160,66 +179,275 @@ function App() {
           </div>
         )}
 
-        {/* Product List */}
-        <div className="bg-white shadow overflow-hidden sm:rounded-md">
-          <ul className="divide-y divide-gray-200">
+        {/* Products Display Tab */}
+        {activeTab === "products" && !loading && (
+          <div>
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">
+              All Products
+            </h2>
             {products && products.length > 0 ? (
-              products.map((product: ProductType) => (
-                <li
-                  key={product?.id}
-                  className="px-6 py-4 flex items-center justify-between"
-                >
-                  <div className="flex items-center">
-                    {product?.image && (
-                      <div className="flex-shrink-0 h-16 w-16 mr-4">
+              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                {products.map((product: ProductType) => (
+                  <div
+                    key={product.id}
+                    className="bg-white overflow-hidden shadow rounded-lg"
+                  >
+                    <div
+                      className="cursor-pointer"
+                      onClick={() => openViewModal(product)}
+                    >
+                      <div className="h-48 w-full overflow-hidden">
                         <img
-                          className="h-16 w-16 rounded-md object-cover"
-                          src={product?.image}
-                          alt={product?.name}
+                          src={product.image || "/api/placeholder/300/200"}
+                          alt={product.name}
+                          className="w-full h-full object-cover"
                         />
                       </div>
-                    )}
-                    <div>
-                      <h3 className="text-lg font-medium text-gray-900">
-                        {product?.name}
-                      </h3>
-                      <p className="text-sm text-gray-500">
-                        ${formatPrice(product?.price)}
-                      </p>
-                      <p className="text-xs text-gray-400">
-                        {product?.category}
-                      </p>
+                      <div className="p-4">
+                        <h3 className="text-lg font-medium text-gray-900">
+                          {product.name}
+                        </h3>
+                        <p className="mt-1 text-sm text-gray-500">
+                          {product.category}
+                        </p>
+                        <p className="mt-2 text-lg font-bold text-gray-900">
+                          ${formatPrice(product.price)}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="px-4 py-3 bg-gray-50 flex justify-between">
+                      {!product.isCart ? (
+                        <button
+                          onClick={() => handleAddToCart(product)}
+                          className="inline-flex items-center px-3 py-1 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                          disabled={product.stock <= 0}
+                        >
+                          {product.stock > 0 ? (
+                            <>
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="h-4 w-4 mr-1"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                  d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+                                />
+                              </svg>
+                              Add to Cart
+                            </>
+                          ) : (
+                            "Out of Stock"
+                          )}
+                        </button>
+                      ) : (
+                        <button
+                          onClick={() => handleRemoveFromCart(product)}
+                          className="inline-flex items-center px-3 py-1 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-4 w-4 mr-1"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                            />
+                          </svg>
+                          Remove
+                        </button>
+                      )}
+                      <span className="text-sm text-gray-500 self-center">
+                        Stock: {product.stock}
+                      </span>
                     </div>
                   </div>
-                  <div className="flex space-x-2">
-                    <button
-                      onClick={() => openViewModal(product)}
-                      className="px-3 py-1 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-10 bg-white rounded-lg shadow">
+                <p className="text-gray-500">No products available.</p>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Product Management Tab */}
+        {activeTab === "management" && (
+          <div>
+            <div className="mb-6 flex justify-between items-center">
+              <h2 className="text-2xl font-bold text-gray-900">
+                Product Management
+              </h2>
+              <button
+                onClick={openAddModal}
+                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                Add New Product
+              </button>
+            </div>
+
+            {/* Product List */}
+            <div className="bg-white shadow overflow-hidden sm:rounded-md">
+              <ul className="divide-y divide-gray-200">
+                {products && products.length > 0 ? (
+                  products.map((product: ProductType) => (
+                    <li
+                      key={product?.id}
+                      className="px-6 py-4 flex items-center justify-between"
                     >
-                      View
-                    </button>
+                      <div className="flex items-center">
+                        {product?.image && (
+                          <div className="flex-shrink-0 h-16 w-16 mr-4">
+                            <img
+                              className="h-16 w-16 rounded-md object-cover"
+                              src={product?.image}
+                              alt={product?.name}
+                            />
+                          </div>
+                        )}
+                        <div>
+                          <h3 className="text-lg font-medium text-gray-900">
+                            {product?.name}
+                          </h3>
+                          <p className="text-sm text-gray-500">
+                            ${formatPrice(product?.price)}
+                          </p>
+                          <p className="text-xs text-gray-400">
+                            {product?.category}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="flex space-x-2">
+                        <button
+                          onClick={() => openViewModal(product)}
+                          className="px-3 py-1 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
+                        >
+                          View
+                        </button>
+                        <button
+                          onClick={() => openEditModal(product)}
+                          className="px-3 py-1 bg-yellow-200 text-yellow-700 rounded-md hover:bg-yellow-300"
+                        >
+                          Edit
+                        </button>
+                        <button
+                          onClick={() => openDeleteModal(product)}
+                          className="px-3 py-1 bg-red-200 text-red-700 rounded-md hover:bg-red-300"
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </li>
+                  ))
+                ) : (
+                  <li className="px-6 py-12 text-center text-gray-500">
+                    {!loading && (
+                      <p>No products found. Add your first product!</p>
+                    )}
+                  </li>
+                )}
+              </ul>
+            </div>
+          </div>
+        )}
+
+        {/* Cart Tab */}
+        {activeTab === "cart" && (
+          <div>
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">Your Cart</h2>
+            <div className="bg-white shadow overflow-hidden sm:rounded-md">
+              {products &&
+              products.filter((p: ProductType) => p.isCart).length > 0 ? (
+                <ul className="divide-y divide-gray-200">
+                  {products
+                    .filter((product: ProductType) => product.isCart)
+                    .map((product: ProductType) => (
+                      <li
+                        key={product?.id}
+                        className="px-6 py-4 flex items-center justify-between"
+                      >
+                        <div className="flex items-center">
+                          {product?.image && (
+                            <div className="flex-shrink-0 h-16 w-16 mr-4">
+                              <img
+                                className="h-16 w-16 rounded-md object-cover"
+                                src={product?.image}
+                                alt={product?.name}
+                              />
+                            </div>
+                          )}
+                          <div>
+                            <h3 className="text-lg font-medium text-gray-900">
+                              {product?.name}
+                            </h3>
+                            <p className="text-sm text-gray-500">
+                              ${formatPrice(product?.price)}
+                            </p>
+                            <p className="text-xs text-gray-400">
+                              {product?.category}
+                            </p>
+                          </div>
+                        </div>
+                        <button
+                          onClick={() => handleRemoveFromCart(product)}
+                          className="px-3 py-1 bg-red-200 text-red-700 rounded-md hover:bg-red-300"
+                        >
+                          Remove
+                        </button>
+                      </li>
+                    ))}
+                </ul>
+              ) : (
+                <div className="px-6 py-12 text-center text-gray-500">
+                  <p>Your cart is empty.</p>
+                </div>
+              )}
+            </div>
+
+            {/* Cart Summary */}
+            {products &&
+              products.filter((p: ProductType) => p.isCart).length > 0 && (
+                <div className="mt-6 bg-white p-6 shadow sm:rounded-md">
+                  <h3 className="text-lg font-medium text-gray-900 mb-4">
+                    Order Summary
+                  </h3>
+                  <div className="flex justify-between border-t border-gray-200 pt-4">
+                    <p className="text-base font-medium text-gray-900">Total</p>
+                    <p className="text-base font-medium text-gray-900">
+                      $
+                      {formatPrice(
+                        products
+                          .filter((p: ProductType) => p.isCart)
+                          .reduce(
+                            (sum: number, p: ProductType) =>
+                              sum + (p.price || 0),
+                            0
+                          )
+                      )}
+                    </p>
+                  </div>
+                  <div className="mt-6">
                     <button
-                      onClick={() => openEditModal(product)}
-                      className="px-3 py-1 bg-yellow-200 text-yellow-700 rounded-md hover:bg-yellow-300"
+                      type="button"
+                      className="w-full bg-blue-600 border border-transparent rounded-md shadow-sm py-3 px-4 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                     >
-                      Edit
-                    </button>
-                    <button
-                      onClick={() => openDeleteModal(product)}
-                      className="px-3 py-1 bg-red-200 text-red-700 rounded-md hover:bg-red-300"
-                    >
-                      Delete
+                      Checkout
                     </button>
                   </div>
-                </li>
-              ))
-            ) : (
-              <li className="px-6 py-12 text-center text-gray-500">
-                {!loading && <p>No products found. Add your first product!</p>}
-              </li>
-            )}
-          </ul>
-        </div>
+                </div>
+              )}
+          </div>
+        )}
       </main>
 
       {/* Add/Edit Product Modal */}
@@ -411,16 +639,30 @@ function App() {
               >
                 Close
               </button>
-              <button
-                type="button"
-                onClick={() => {
-                  setIsViewModalOpen(false);
-                  openEditModal(currentProduct);
-                }}
-                className="mt-3 w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-yellow-600 text-base font-medium text-white hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
-              >
-                Edit
-              </button>
+              {!currentProduct.isCart ? (
+                <button
+                  type="button"
+                  onClick={() => {
+                    handleAddToCart(currentProduct as any);
+                    setIsViewModalOpen(false);
+                  }}
+                  className="mt-3 w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+                  disabled={currentProduct.stock <= 0}
+                >
+                  {currentProduct.stock > 0 ? "Add to Cart" : "Out of Stock"}
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => {
+                    handleRemoveFromCart(currentProduct as any);
+                    setIsViewModalOpen(false);
+                  }}
+                  className="mt-3 w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+                >
+                  Remove from Cart
+                </button>
+              )}
             </div>
           </div>
         </div>

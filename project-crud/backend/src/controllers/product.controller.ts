@@ -9,12 +9,19 @@ class ProductController extends AbstractModel {
   }
   async getAll(req: Request, res: Response): Promise<void> {
     try {
-      const products = await db.Product.findAll();
-      console.log(products);
+      const products = await db.Product.findAll({
+        include: [
+          {
+            model: db.Category,
+            as: "category",
+            attributes: ["name"],
+          },
+        ],
+      });
       res.json({
         status: "success",
         message: "Products fetched successfully",
-        data: products,
+        products,
       });
     } catch (error: any) {
       res.json({

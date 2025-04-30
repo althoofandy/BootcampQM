@@ -1,65 +1,54 @@
 import { Model, DataTypes } from "sequelize";
 export default (sequelize) => {
-    class Product extends Model {
+    class Cart extends Model {
         static associate(models) {
-            Product.belongsTo(models.Category, {
-                foreignKey: "categoryId",
-                as: "category",
-            });
-            Product.hasMany(models.Cart, {
+            Cart.belongsTo(models.User, {
                 foreignKey: "id",
-                as: "carts",
+                as: "user",
+            });
+            Cart.belongsTo(models.Product, {
+                foreignKey: "productId",
+                as: "product",
             });
         }
     }
-    Product.init({
+    Cart.init({
         id: {
             type: DataTypes.UUID,
             primaryKey: true,
-            allowNull: false,
             defaultValue: DataTypes.UUIDV4,
         },
-        name: {
+        userId: {
             type: DataTypes.STRING,
             allowNull: false,
         },
-        price: {
+        productId: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        quantity: {
             type: DataTypes.INTEGER,
             allowNull: false,
+            defaultValue: 1,
         },
-        categoryId: {
-            type: DataTypes.UUID,
-            allowNull: false,
-        },
-        description: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
-        image: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
-        stock: {
+        totalPrice: {
             type: DataTypes.INTEGER,
             allowNull: false,
-        },
-        isCart: {
-            type: DataTypes.BOOLEAN,
-            allowNull: false,
-            defaultValue: false,
         },
         createdAt: {
             type: DataTypes.DATE,
             allowNull: false,
+            defaultValue: DataTypes.NOW,
         },
         updatedAt: {
             type: DataTypes.DATE,
             allowNull: false,
+            defaultValue: DataTypes.NOW,
         },
     }, {
         sequelize,
-        modelName: "Product",
-        tableName: "products",
+        modelName: "Cart",
+        tableName: "carts",
     });
-    return Product;
+    return Cart;
 };
