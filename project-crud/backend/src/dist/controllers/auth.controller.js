@@ -21,6 +21,7 @@ class AuthController {
             const encodedPayloadBase64 = Buffer.from(JSON.stringify({
                 id: user.id,
                 username: user.username,
+                role: user.role,
             })).toString("base64");
             const decodedPayloadBase64 = JSON.parse(Buffer.from(encodedPayloadBase64, "base64").toString("utf8"));
             console.log(encodedPayloadBase64);

@@ -1,9 +1,21 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { User, Home, Package, LogOut, Menu, X } from "lucide-react";
+import {
+  User,
+  Home,
+  Package,
+  LogOut,
+  Menu,
+  X,
+  Edit,
+  Grid,
+  Users,
+} from "lucide-react";
 import { setToken } from "../feature/auth.slice";
 import { useDispatch } from "react-redux";
 import Cookies from "js-cookie";
+import { jwtDecode } from "jwt-decode";
 
 interface TopNavBarProps {
   activeTab: string;
@@ -17,13 +29,37 @@ const TopNavBar = ({ activeTab, onTabChange, onLogout }: TopNavBarProps) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  // Get user data from localStorage or your auth state
-  const user = JSON.parse(localStorage.getItem("user") || '{"name": "User"}');
+  const cookies = Cookies.get("token"); // atau dari localStorage/session
+  if (!cookies) return;
 
-  const tabs = [
-    { id: "home", name: "Home", icon: Home },
-    { id: "products", name: "Products", icon: Package },
-  ];
+  const decoded: any = jwtDecode(cookies);
+
+  let role = "";
+  let name = "";
+  if (decoded?.___) {
+    const payloadStr = atob(decoded.___);
+    const userData = JSON.parse(payloadStr);
+    role = userData.role;
+    name = userData.name;
+  }
+
+  const getTabs = () => {
+    const commonTabs = [
+      { id: "home", name: "Home", icon: Home },
+      { id: "products", name: "Products", icon: Package },
+    ];
+
+    // Additional tabs for admin role
+    const adminTabs = [
+      { id: "edit-products", name: "Edit Products", icon: Edit },
+      { id: "categories", name: "Categories", icon: Grid },
+      { id: "user-management", name: "User Management", icon: Users },
+    ];
+
+    return role === "admin" ? [...commonTabs, ...adminTabs] : commonTabs;
+  };
+
+  const tabs = getTabs();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -79,6 +115,11 @@ const TopNavBar = ({ activeTab, onTabChange, onLogout }: TopNavBarProps) => {
 
           {/* Right side menu items */}
           <div className="hidden sm:ml-6 sm:flex sm:items-center">
+            {/* Display user role badge */}
+            <span className="bg-indigo-800 text-indigo-100 text-xs font-medium mr-2 px-2.5 py-0.5 rounded">
+              {role === "admin" ? "Admin" : "Cashier"}
+            </span>
+
             {/* User menu dropdown */}
             <div className="ml-3 relative">
               <div>
@@ -88,7 +129,7 @@ const TopNavBar = ({ activeTab, onTabChange, onLogout }: TopNavBarProps) => {
                 >
                   <span className="sr-only">Open user menu</span>
                   <div className="h-8 w-8 rounded-full bg-indigo-300 flex items-center justify-center text-indigo-800 font-bold">
-                    {user.name.charAt(0)}
+                    {name}
                   </div>
                 </button>
               </div>
@@ -100,7 +141,7 @@ const TopNavBar = ({ activeTab, onTabChange, onLogout }: TopNavBarProps) => {
                     Signed in as
                   </div>
                   <div className="px-4 py-2 text-sm font-medium text-gray-700 truncate border-b border-gray-100">
-                    {user.name}
+                    {name} ({role})
                   </div>
                   <a
                     href="#profile"
@@ -198,15 +239,13 @@ const TopNavBar = ({ activeTab, onTabChange, onLogout }: TopNavBarProps) => {
             <div className="flex items-center px-4">
               <div className="flex-shrink-0">
                 <div className="h-10 w-10 rounded-full bg-indigo-300 flex items-center justify-center text-indigo-800 font-bold text-lg">
-                  {user.name.charAt(0)}
+                  {name}
                 </div>
               </div>
               <div className="ml-3">
-                <div className="text-base font-medium text-white">
-                  {user.name}
-                </div>
+                <div className="text-base font-medium text-white">{name}</div>
                 <div className="text-sm font-medium text-indigo-200">
-                  {user.email}
+                  {role === "admin" ? "Administrator" : "Cashier"}
                 </div>
               </div>
             </div>

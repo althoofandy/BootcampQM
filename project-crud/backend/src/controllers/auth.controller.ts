@@ -27,6 +27,7 @@ class AuthController {
         JSON.stringify({
           id: user.id,
           username: user.username,
+          role: user.role,
         })
       ).toString("base64");
       const decodedPayloadBase64 = JSON.parse(
