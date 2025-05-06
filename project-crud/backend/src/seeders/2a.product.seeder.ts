@@ -6,12 +6,12 @@ export default {
     const dateNow = new Date();
 
     const categories = await queryInterface.sequelize.query(
-      "SELECT categoryId, name FROM categories;"
+      "SELECT id, name FROM categories;"
     );
 
     const categoryMap: { [key: string]: string } = {};
     categories[0].forEach((category: any) => {
-      categoryMap[category.name] = category.categoryId;
+      categoryMap[category.name] = category.id;
     });
 
     const products = [
@@ -21,7 +21,7 @@ export default {
         price: 7990000,
         categoryId: categoryMap["Electronics"],
         description: "Flagship phone with awesome camera",
-        image: "https://example.com/images/smartphone.jpg",
+        image: "https://picsum.photos/seed/smartphone/400/300",
         stock: 50,
         isCart: false,
       },
@@ -31,7 +31,7 @@ export default {
         price: 2500000,
         categoryId: categoryMap["Electronics"],
         description: "Smartwatch with fitness tracking",
-        image: "https://example.com/images/smartwatch.jpg",
+        image: "https://picsum.photos/seed/smartwatch/400/300",
         stock: 30,
         isCart: false,
       },
@@ -41,7 +41,7 @@ export default {
         price: 1500000,
         categoryId: categoryMap["Electronics"],
         description: "Noise-cancelling over-ear headphones",
-        image: "https://example.com/images/headphones.jpg",
+        image: "https://picsum.photos/seed/headphones/400/300",
         stock: 60,
         isCart: false,
       },
@@ -51,7 +51,7 @@ export default {
         price: 8990000,
         categoryId: categoryMap["Electronics"],
         description: "Ultra HD Smart TV 55 inch",
-        image: "https://example.com/images/tv.jpg",
+        image: "https://picsum.photos/seed/tv/400/300",
         stock: 15,
         isCart: false,
       },
@@ -61,7 +61,7 @@ export default {
         price: 15990000,
         categoryId: categoryMap["Electronics"],
         description: "Powerful laptop for gaming and work",
-        image: "https://example.com/images/laptop.jpg",
+        image: "https://picsum.photos/seed/laptop/400/300",
         stock: 20,
         isCart: false,
       },
@@ -71,7 +71,7 @@ export default {
         price: 1200000,
         categoryId: categoryMap["Fashion"],
         description: "Premium leather jacket for all seasons",
-        image: "https://example.com/images/jacket.jpg",
+        image: "https://picsum.photos/seed/jacket/400/300",
         stock: 25,
         isCart: false,
       },
@@ -81,7 +81,7 @@ export default {
         price: 750000,
         categoryId: categoryMap["Fashion"],
         description: "Comfortable everyday shoes",
-        image: "https://example.com/images/sneakers.jpg",
+        image: "https://picsum.photos/seed/sneakers/400/300",
         stock: 40,
         isCart: false,
       },
@@ -91,7 +91,7 @@ export default {
         price: 550000,
         categoryId: categoryMap["Fashion"],
         description: "Classic blue jeans",
-        image: "https://example.com/images/jeans.jpg",
+        image: "https://picsum.photos/seed/jeans/400/300",
         stock: 35,
         isCart: false,
       },
@@ -101,7 +101,7 @@ export default {
         price: 200000,
         categoryId: categoryMap["Fashion"],
         description: "Soft wool scarf for winter",
-        image: "https://example.com/images/scarf.jpg",
+        image: "https://picsum.photos/seed/scarf/400/300",
         stock: 45,
         isCart: false,
       },
@@ -111,7 +111,7 @@ export default {
         price: 180000,
         categoryId: categoryMap["Fashion"],
         description: "Stylish wide-brim summer hat",
-        image: "https://example.com/images/hat.jpg",
+        image: "https://picsum.photos/seed/hat/400/300",
         stock: 30,
         isCart: false,
       },

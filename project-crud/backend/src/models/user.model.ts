@@ -16,10 +16,21 @@ export default (sequelize: Sequelize) => {
         type: DataTypes.UUID,
         primaryKey: true,
         defaultValue: DataTypes.UUIDV4,
+        allowNull: false,
       },
-      name: {
+      username: {
         type: DataTypes.STRING,
         allowNull: false,
+        unique: true,
+      },
+      password: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      role: {
+        type: DataTypes.ENUM("admin", "cashier"),
+        allowNull: false,
+        defaultValue: "cashier",
       },
       createdAt: {
         type: DataTypes.DATE,

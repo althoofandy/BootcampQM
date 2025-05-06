@@ -21,10 +21,10 @@ export default {
                 allowNull: false,
                 references: {
                     model: "categories",
-                    key: "categoryId",
+                    key: "id",
                 },
                 onUpdate: "CASCADE",
-                onDelete: "RESTRICT", // atau CASCADE jika ingin ikut terhapus
+                onDelete: "RESTRICT",
             },
             description: {
                 type: DataTypes.STRING,

@@ -1,15 +1,21 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+
+export interface ProductCategory {
+  name: string;
+}
+
 export interface ProductType {
   id: string;
   name: string;
   price: number;
-  category: string;
+  categoryId: string;
   description: string;
   image: string;
   stock: number;
   isCart: boolean;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string; // bisa juga Date jika langsung di-convert
+  updatedAt: string;
+  category: ProductCategory;
 }
 
 export interface ProductStateType {
@@ -21,4 +27,7 @@ export interface ProductStateType {
   status: string | null;
 }
 
-export type ProductFormType = Omit<ProductType, "createdAt" | "updatedAt">;
+export type ProductFormType = Omit<
+  ProductType,
+  "createdAt" | "updatedAt" | "category"
+>;

@@ -2,7 +2,7 @@ import { DataTypes } from "sequelize";
 export default {
     up: async (queryInterface) => {
         await queryInterface.createTable("categories", {
-            categoryId: {
+            id: {
                 type: DataTypes.UUID,
                 primaryKey: true,
                 defaultValue: DataTypes.UUIDV4,

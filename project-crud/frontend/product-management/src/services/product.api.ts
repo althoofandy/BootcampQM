@@ -14,6 +14,7 @@ class UserAPI extends ModelAPI {
   async getAll() {
     const response = await fetch(`${BASE_URL_API}/products`);
     const data = await response.json();
+    console.log(data);
     return data;
   }
   async create(product: any) {

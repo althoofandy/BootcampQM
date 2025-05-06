@@ -73,7 +73,7 @@ const userSlice = createSlice({
       })
       .addCase(getAllProducts.fulfilled, (state, action) => {
         state.loading = false;
-        state.products = action.payload.data;
+        state.products = action.payload.products;
         state.message = action.payload.message;
         state.status = action.payload.status;
       })

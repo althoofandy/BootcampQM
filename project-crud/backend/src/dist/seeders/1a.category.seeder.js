@@ -4,19 +4,19 @@ export default {
         const dateNow = new Date();
         const categories = [
             {
-                categoryId: uuidv4(),
+                id: uuidv4(),
                 name: "Electronics",
                 createdAt: dateNow,
                 updatedAt: dateNow,
             },
             {
-                categoryId: uuidv4(),
+                id: uuidv4(),
                 name: "Fashion",
                 createdAt: dateNow,
                 updatedAt: dateNow,
             },
             {
-                categoryId: uuidv4(),
+                id: uuidv4(),
                 name: "Books",
                 createdAt: dateNow,
                 updatedAt: dateNow,

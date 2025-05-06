@@ -12,7 +12,7 @@ export default (sequelize: Sequelize) => {
 
   Category.init(
     {
-      categoryId: {
+      id: {
         type: DataTypes.UUID,
         allowNull: false,
         primaryKey: true,
