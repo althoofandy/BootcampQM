@@ -1,0 +1,13 @@
+import express from "express";
+import userRouter from "./user.route.js";
+import courseRoute from "./course.route.js";
+import tryoutRoute from "./tryout.route.js";
+import groupRoute from "./group.route.js";
+const router = express.Router();
+
+router.use("/users", userRouter);
+router.use("/courses", courseRoute);
+router.use("/tryouts", tryoutRoute);
+router.use("/groups", groupRoute);
+
+export default router;

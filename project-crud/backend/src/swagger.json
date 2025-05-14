@@ -1,0 +1,39 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Phindojo",
+    "version": "1.0.0",
+    "contact": {}
+  },
+  "servers": [
+    {
+      "url": "https://localhost:5000"
+    }
+  ],
+  "paths": {
+    "/user/{id}": {
+      "get": {
+        "summary": "Get User by ID",
+        "description": "Get User by ID",
+        "operationId": "getUserById",
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "example": "973a1726-e871-49a0-abb7-a467a608d6db"
+          }
+        }
+      ]
+    }
+  },
+  "tags": []
+}
