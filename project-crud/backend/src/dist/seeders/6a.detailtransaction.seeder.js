@@ -45,12 +45,6 @@ export default {
                         quantity: 3,
                         price: products[2].price,
                     },
-                    {
-                        productId: products[3].id,
-                        name: products[3].name,
-                        quantity: 3,
-                        price: products[3].price,
-                    },
                 ]),
                 createdAt: dateNow,
                 updatedAt: dateNow,
