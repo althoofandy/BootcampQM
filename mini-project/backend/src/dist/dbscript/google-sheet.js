@@ -52,7 +52,9 @@ export class GoogleSheetService {
     async getAllFromTable(tableName) {
         await this.initialize();
         const model = this.getModel(tableName);
-        const records = await model.findAll();
+        const records = await model.findAll({
+            attributes: { exclude: ["createdAt", "updatedAt"] },
+        });
         return records.map((record) => record.toJSON());
     }
     async pushDataToSheet(tableName) {

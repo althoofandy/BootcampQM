@@ -72,7 +72,9 @@ export class GoogleSheetService {
   async getAllFromTable(tableName: SheetName): Promise<any[]> {
     await this.initialize();
     const model = this.getModel(tableName) as any;
-    const records = await model.findAll();
+    const records = await model.findAll({
+      attributes: { exclude: ["createdAt", "updatedAt"] },
+    });
     return records.map((record: { toJSON: () => any }) => record.toJSON());
   }
 

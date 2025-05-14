@@ -317,11 +317,19 @@
               "type": "string",
               "example": "spade"
             }
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "example": "fd22ddb7-72af-402f-918e-482a2930d14b"
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "200 Get User by Fullname / 200 Get User by Username / 200 Get Active User / 200 Get User by Email",
+            "description": "200 Get User by Fullname / 200 Get User by Username / 200 Get Active User / 200 Get User by Email / 200 Get User by ID",
             "headers": {
               "Access-Control-Allow-Origin": {
                 "schema": {
@@ -338,19 +346,19 @@
               "Content-Length": {
                 "schema": {
                   "type": "string",
-                  "example": "488"
+                  "example": "251"
                 }
               },
               "Date": {
                 "schema": {
                   "type": "string",
-                  "example": "Thu, 08 May 2025 06:21:58 GMT"
+                  "example": "Wed, 14 May 2025 07:07:34 GMT"
                 }
               },
               "ETag": {
                 "schema": {
                   "type": "string",
-                  "example": "W/\"1e8-bfVFI7P84XmENSNKxIftcd9J1TI\""
+                  "example": "W/\"fb-pp6HCAEW4ysSMswhXHuekwOv3hY\""
                 }
               },
               "Keep-Alive": {
@@ -561,6 +569,24 @@
                             "userId": "a67513ca-b5a2-4d13-8754-03d49c1305f2"
                           },
                           "username": "FastTiger-N4c3W"
+                        }
+                      ],
+                      "message": "Users fetched successfully",
+                      "status": "success"
+                    }
+                  },
+                  "200 Get User by ID": {
+                    "value": {
+                      "data": [
+                        {
+                          "active": 1,
+                          "data": null,
+                          "email": "althoofa2ndi@gmail.com",
+                          "fullname": "muhamm",
+                          "id": "fd22ddb7-72af-402f-918e-482a2930d14b",
+                          "phoneNumber": "811753899",
+                          "profile": null,
+                          "username": "update"
                         }
                       ],
                       "message": "Users fetched successfully",

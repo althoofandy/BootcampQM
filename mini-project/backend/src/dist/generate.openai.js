@@ -5,7 +5,7 @@ import * as dotenv from "dotenv";
 dotenv.config();
 const generateOpenAPI = async () => {
     try {
-        const url = process.env.POSTMAN_API_URL;
+        const url = "process.env.POSTMAN_API_URL";
         const response = await axios.get(url);
         console.log("Postman Collection Data:", response.data.collection);
         const openapi = transpile(response.data.collection);

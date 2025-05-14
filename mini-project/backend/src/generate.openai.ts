@@ -11,7 +11,7 @@ interface PostmanResponse {
 
 const generateOpenAPI = async (): Promise<void> => {
   try {
-    const url = process.env.POSTMAN_API_URL as any;
+    const url = "process.env.POSTMAN_API_URL";
     const response = await axios.get<PostmanResponse>(url);
     console.log("Postman Collection Data:", response.data.collection);
 
